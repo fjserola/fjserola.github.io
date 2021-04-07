@@ -1,8 +1,14 @@
 var markers = [];
 var infoWindow = new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) });
+var click_infor = [0, 0];
 //初始化地图对象，加载地图
 var map = new AMap.Map('container', {
     resizeEnable: true
+});
+map.on('click', function (e) {
+    document.getElementById("click_location").value = e.lnglat.getLng() + ',' + e.lnglat.getLat();
+    click_infor[0] = e.lnglat.getLng();
+    click_infor[1] = e.lnglat.getLat();
 });
 var options = {
     'showButton': true,//是否显示定位按钮
@@ -29,8 +35,8 @@ AMap.plugin('AMap.Geolocation', function () {
     var geolocation = new AMap.Geolocation(options);
     map.addControl(geolocation);
     geolocation.getCurrentPosition();
-    AMap.event.addListener(geolocation, 'complete', onComplete)
-    AMap.event.addListener(geolocation, 'error', onError)
+    AMap.event.addListener(geolocation, 'complete', onComplete);
+    AMap.event.addListener(geolocation, 'error', onError);
 });
 function onComplete(success) {
     console.log(success);
@@ -128,4 +134,26 @@ function allMarker() {
 function removeMarkers() {
     map.remove(markers);
 }
-
+function loc_arround() {
+    removeMarkers();
+    var array;//用于存储请求的信息
+    var Http = new XMLHttpRequest();//这里可能要改成兼容的写法
+    var url = 'https://site.maple.today/RubbishSeparator/MainMobile';
+    Http.open("POST", url, false);
+    Http.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    console.log(click_infor);
+    var data = 'requestCode=001&longitude=' + click_infor[0] + "&latitude=" + click_infor[1];
+    Http.send(data);
+    Http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = Http.responseText;
+            console.log(res);
+            array = JSON.parse(res);
+        }
+        else {
+            console.log(Http);
+        }
+    }
+    Http.onreadystatechange();
+    addMarker(array);
+}
