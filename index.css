@@ -1,0 +1,51 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.background{
+    position:fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height:100%;
+    min-width: 1000px;
+    z-index:-10;
+    background: url(img/background.jpg) no-repeat;
+    background-size: cover;
+    background-position: center 0;
+}
+
+.headline{
+    height: 104px;
+    background-color: #171a21;
+}
+
+.logo{
+    height: 104px;
+    width: auto;
+}
+
+.imgbox{
+    float: left;
+    height: 104px;
+}
+
+.headbox{
+    margin: 0 100px;
+    display: inline-block;
+}
+
+.headbox a{
+    text-decoration: none;
+    color: white;
+    line-height: 104px;
+    margin-left: 33px;
+}
+
+.box{
+    margin: 0 auto;
+    width: 976px;
+    filter: grayscale(20%);
+}
+
